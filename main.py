@@ -1,5 +1,4 @@
 # import json
-# from sys import exit
 from dotenv import load_dotenv
 from os import getenv
 import requests
@@ -12,7 +11,7 @@ load_dotenv()
 apikey = getenv("apikey")
 custom_object_name = getenv("custom_object_name")
 tenant = getenv("tenant")
-workspace_id = getenv("workspace_id")
+workspace_id = int(getenv("workspace_id"))
 
 # Suppress only the single warning from urllib3 needed.
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
@@ -88,6 +87,7 @@ def post_freshservice_api(datatype, id=0, data={}):
 
 def main():
     results = get_freshservice_api("groups")
+    # group_names = [ item["name"] for item in results ]
     group_names = [
         item["name"] for item in results if item["workspace_id"] == workspace_id
     ]
